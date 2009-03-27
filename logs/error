@@ -1,0 +1,74 @@
+[24-Mar-2009 11:24:09] PHP Warning:  Zend_Loader::include_once(Bugapp/Plugin/Initialize.php) [<a href='zend-loader.include-once'>zend-loader.include-once</a>]: failed to open stream: No such file or directory in /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Loader.php on line 83
+[24-Mar-2009 11:24:09] PHP Warning:  Zend_Loader::include_once() [<a href='function.include'>function.include</a>]: Failed opening 'Bugapp/Plugin/Initialize.php' for inclusion (include_path='.:/usr/local/php5/lib/php:/usr/local/lib/php:/home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library:/home/.bangle/cowbowstyle/locamore/models') in /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Loader.php on line 83
+[24-Mar-2009 11:24:09] PHP Fatal error:  Class 'Bugapp_Plugin_Initialize' not found in /home/.bangle/cowbowstyle/locamore/views/scripts/error/error.phtml on line 2
+[24-Mar-2009 11:26:40] PHP Fatal error:  Uncaught exception 'Exception' with message 'FFFUUUU' in /home/.bangle/cowbowstyle/locamore/views/layouts/default.phtml:22
+Stack trace:
+#0 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/View.php(107): include()
+#1 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/View/Abstract.php(820): Zend_View->_run('/home/.bangle/c...')
+#2 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Layout.php(787): Zend_View_Abstract->render('default.phtml')
+#3 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Layout/Controller/Plugin/Layout.php(142): Zend_Layout->render()
+#4 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Controller/Plugin/Broker.php(331): Zend_Layout_Controller_Plugin_Layout->postDispatch(Object(Zend_Controller_Request_Http))
+#5 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Controller/Front.php(945): Zend_Controller_Plugin_Broker->postDispatch(Object(Zend_Control in /home/.bangle/cowbowstyle/locamore/views/layouts/default.phtml on line 22
+[24-Mar-2009 11:28:35] PHP Fatal error:  Uncaught exception 'Exception' with message 'FFFUUUU' in /home/.bangle/cowbowstyle/locamore/views/layouts/default.phtml:22
+Stack trace:
+#0 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/View.php(107): include()
+#1 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/View/Abstract.php(820): Zend_View->_run('/home/.bangle/c...')
+#2 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Layout.php(787): Zend_View_Abstract->render('default.phtml')
+#3 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Layout/Controller/Plugin/Layout.php(142): Zend_Layout->render()
+#4 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Controller/Plugin/Broker.php(331): Zend_Layout_Controller_Plugin_Layout->postDispatch(Object(Zend_Controller_Request_Http))
+#5 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Controller/Front.php(945): Zend_Controller_Plugin_Broker->postDispatch(Object(Zend_Control in /home/.bangle/cowbowstyle/locamore/views/layouts/default.phtml on line 22
+[24-Mar-2009 11:34:18] PHP Fatal error:  Uncaught exception 'Exception' with message 'FFFUUUU' in /home/.bangle/cowbowstyle/locamore/views/layouts/default.phtml:22
+Stack trace:
+#0 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/View.php(107): include()
+#1 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/View/Abstract.php(820): Zend_View->_run('/home/.bangle/c...')
+#2 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Layout.php(787): Zend_View_Abstract->render('default.phtml')
+#3 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Layout/Controller/Plugin/Layout.php(142): Zend_Layout->render()
+#4 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Controller/Plugin/Broker.php(331): Zend_Layout_Controller_Plugin_Layout->postDispatch(Object(Zend_Controller_Request_Http))
+#5 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Controller/Front.php(945): Zend_Controller_Plugin_Broker->postDispatch(Object(Zend_Control in /home/.bangle/cowbowstyle/locamore/views/layouts/default.phtml on line 22
+[24-Mar-2009 11:43:34] PHP Fatal error:  Uncaught exception 'Zend_Controller_Action_Exception' with message 'Method "layout" does not exist and was not trapped in __call()' in /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Controller/Action.php:478
+Stack trace:
+#0 [internal function]: Zend_Controller_Action->__call('layout', Array)
+#1 /home/.bangle/cowbowstyle/locamore/controllers/ErrorController.php(6): ErrorController->layout()
+#2 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Controller/Action.php(503): ErrorController->errorAction()
+#3 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Controller/Dispatcher/Standard.php(285): Zend_Controller_Action->dispatch('errorAction')
+#4 /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Controller/Front.php(934): Zend_Controller_Dispatcher_Standard->dispatch(Object(Zend_Controller_Request_Http), Object(Zend_Controller_Response_Http))
+#5 /home/.bangle/cowbowstyle/jakemcgraw.com/locamore/index.php(71): Zend_Co in /home/.bangle/cowbowstyle/zend_framework/ZendFramework-1.7.7/library/Zend/Controller/Action.php on line 478
+[24-Mar-2009 12:13:06] PHP Warning:  Wrong parameter count for trigger_error() in /home/.bangle/cowbowstyle/locamore/controllers/IndexController.php on line 7
+[24-Mar-2009 12:13:43] PHP Warning:  Invalid error type specified in /home/.bangle/cowbowstyle/locamore/controllers/IndexController.php on line 7
+[24-Mar-2009 12:13:50] PHP Warning:  Invalid error type specified in /home/.bangle/cowbowstyle/locamore/controllers/IndexController.php on line 7
+[24-Mar-2009 12:14:27] PHP Warning:  Invalid error type specified in /home/.bangle/cowbowstyle/locamore/controllers/IndexController.php on line 7
+[24-Mar-2009 12:14:28] PHP Warning:  Invalid error type specified in /home/.bangle/cowbowstyle/locamore/controllers/IndexController.php on line 7
+[24-Mar-2009 15:37:57] PHP Fatal error:  Method Zend_Rest_Client_Result::__toString() must not throw an exception in /home/.bangle/cowbowstyle/locamore/controllers/UpdateController.php on line 25
+[24-Mar-2009 15:38:00] PHP Fatal error:  Method Zend_Rest_Client_Result::__toString() must not throw an exception in /home/.bangle/cowbowstyle/locamore/controllers/UpdateController.php on line 25
+[24-Mar-2009 16:03:39] PHP Fatal error:  Class 'Rest_ClientJSON' not found in /home/.bangle/cowbowstyle/locamore/controllers/UpdateController.php on line 18
+[24-Mar-2009 16:04:03] PHP Fatal error:  Class 'Rest_ClientJSON' not found in /home/.bangle/cowbowstyle/locamore/controllers/UpdateController.php on line 18
+[25-Mar-2009 09:52:12] PHP Parse error:  syntax error, unexpected $end in /home/.bangle/cowbowstyle/locamore/views/scripts/update/index.phtml on line 36
+[25-Mar-2009 10:08:46] PHP Fatal error:  Call to undefined method Zend_Http_Client::getQuery() in /home/.bangle/cowbowstyle/locamore/controllers/UpdateController.php on line 35
+[25-Mar-2009 10:09:13] PHP Fatal error:  Call to undefined method Zend_Http_Client::getQuery() in /home/.bangle/cowbowstyle/locamore/controllers/UpdateController.php on line 35
+[25-Mar-2009 14:17:39] PHP Fatal error:  Class 'Locamore_Model' not found in /home/.bangle/cowbowstyle/locamore/models/Job.php on line 2
+[25-Mar-2009 14:17:57] PHP Fatal error:  Class 'Locamore_Model' not found in /home/.bangle/cowbowstyle/locamore/models/Job.php on line 2
+[25-Mar-2009 14:18:22] PHP Fatal error:  Class 'Model_AModel' not found in /home/.bangle/cowbowstyle/locamore/models/Job.php on line 2
+[25-Mar-2009 14:20:41] PHP Fatal error:  Class 'Model_Etsy' not found in /home/.bangle/cowbowstyle/locamore/models/Job.php on line 48
+[25-Mar-2009 14:24:36] PHP Fatal error:  Cannot declare property Model_Etsy::$validResourcePatterns final, the final modifier is allowed only for methods and classes in /home/.bangle/cowbowstyle/locamore/models/Etsy.php on line 37
+[25-Mar-2009 14:26:08] PHP Fatal error:  Method Model_Etsy::__call() must take exactly 2 arguments in /home/.bangle/cowbowstyle/locamore/models/Etsy.php on line 68
+[25-Mar-2009 14:26:32] PHP Fatal error:  Call to undefined method Zend_Http_Client::setParamsGet() in /home/.bangle/cowbowstyle/locamore/models/Etsy.php on line 132
+[25-Mar-2009 14:37:38] PHP Parse error:  syntax error, unexpected T_IF in /home/.bangle/cowbowstyle/locamore/models/Etsy.php on line 107
+[25-Mar-2009 15:26:52] PHP Fatal error:  Call to a member function getLastResponse() on a non-object in /home/.bangle/cowbowstyle/locamore/models/Job.php on line 73
+[25-Mar-2009 15:27:04] PHP Fatal error:  Call to a member function getLastResponse() on a non-object in /home/.bangle/cowbowstyle/locamore/models/Job.php on line 73
+[26-Mar-2009 14:12:04] PHP Fatal error:  Call to undefined method Model_Table_Job::getPrimary() in /home/.bangle/cowbowstyle/locamore/models/AModel.php on line 108
+[26-Mar-2009 14:12:37] PHP Fatal error:  Call to undefined method Model_Table_Job::getPrimary() in /home/.bangle/cowbowstyle/locamore/models/AModel.php on line 108
+[26-Mar-2009 14:15:39] PHP Fatal error:  Call to undefined method Model_Table_Job::getPrimary() in /home/.bangle/cowbowstyle/locamore/models/AModel.php on line 108
+[26-Mar-2009 14:46:06] PHP Fatal error:  Cannot use object of type stdClass as array in /home/.bangle/cowbowstyle/locamore/models/User.php on line 27
+[26-Mar-2009 14:47:22] PHP Fatal error:  Cannot use object of type stdClass as array in /home/.bangle/cowbowstyle/locamore/models/User.php on line 27
+[27-Mar-2009 10:13:55] PHP Fatal error:  Undefined class constant 'self::G_GEO_SUCCESS' in /home/.bangle/cowbowstyle/locamore/library/Locamore/Helper/GetModel.php on line 33
+[27-Mar-2009 10:14:13] PHP Fatal error:  Undefined class constant 'self::G_GEO_SUCCESS' in /home/.bangle/cowbowstyle/locamore/library/Locamore/Helper/GetModel.php on line 33
+[27-Mar-2009 10:14:54] PHP Fatal error:  Undefined class constant 'self::G_GEO_SUCCESS' in /home/.bangle/cowbowstyle/locamore/library/Locamore/Helper/GetModel.php on line 33
+[27-Mar-2009 10:15:11] PHP Fatal error:  Call to a member function toArray() on a non-object in /home/.bangle/cowbowstyle/locamore/library/Locamore/Http/Client.php on line 47
+[27-Mar-2009 10:20:16] PHP Fatal error:  Cannot redeclare non static Locamore_Http_Client::$_config as static Model_Google_Maps::$_config in /home/.bangle/cowbowstyle/locamore/models/Google/Maps.php on line 3
+[27-Mar-2009 10:28:33] PHP Parse error:  syntax error, unexpected '+', expecting ')' in /home/.bangle/cowbowstyle/locamore/models/Google/Maps.php on line 21
+[27-Mar-2009 10:29:32] PHP Parse error:  syntax error, unexpected '(' in /home/.bangle/cowbowstyle/locamore/models/Google/Maps.php on line 20
+[27-Mar-2009 10:30:33] PHP Parse error:  syntax error, unexpected '(' in /home/.bangle/cowbowstyle/locamore/models/Google/Maps.php on line 20
+[27-Mar-2009 10:30:41] PHP Fatal error:  Call to a member function getBody() on a non-object in /home/.bangle/cowbowstyle/locamore/library/Locamore/Http/Client.php on line 144
+[27-Mar-2009 13:32:58] PHP Parse error:  syntax error, unexpected ';' in /home/.bangle/cowbowstyle/locamore/models/AModel.php on line 126
+[27-Mar-2009 13:33:15] PHP Parse error:  syntax error, unexpected ';' in /home/.bangle/cowbowstyle/locamore/models/AModel.php on line 126
+[27-Mar-2009 13:43:43] PHP Parse error:  syntax error, unexpected T_STRING in /home/.bangle/cowbowstyle/locamore/models/AModel.php on line 79

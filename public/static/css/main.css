@@ -1,0 +1,75 @@
+* {
+  margin:0;
+}
+body, html {
+  height:100%;
+}
+#wrap {
+  min-height:100%;
+  height:auto !important;
+  height:100%;
+  margin:0 auto -80px;
+}
+#foot, #wrap {
+  width:696px;
+}
+#foot, #push {
+  height:80px;
+}
+#foot {
+  margin:0 auto;
+}
+#head p, #foot p {
+  border:4px solid #d35701;
+  padding:16px 16px 0;
+  overflow:hidden;
+}
+#head p {
+  border-top-width:0;
+  padding-bottom:16px;
+}
+#head h1 {
+  background:#d35701;
+  padding:8px;
+  color:#FFF;
+  font:bold 2em Georgia, serif;
+}
+#foot p {
+  border-bottom-width:0;
+  height:60px;
+}
+#foot a {
+  text-decoration:none;
+  color:#666666;
+  font:normal 1.2em Lucida, sans-serif;
+  padding:1px 3px;
+}
+#foot span {
+  
+}
+#foot .jquery {
+  color:#5db0e6;
+}
+#foot .jquery:hover {
+  background:#5db0e6;
+  color:#FFF;
+}
+#foot .locamore {
+  color:#d35701;
+  font:bold 1.2em Georgia, serif;
+}
+#foot .locamore:hover {
+  background:#d35701;
+  color:#FFF;
+}
+#location {
+  width:500px;
+  padding:6px;
+  font:2em/2.4em;
+  border:1px solid #d0d0d0;
+}
+#submit {
+  padding:5px 6px;
+  font:2em/2.4em;
+  border:1px solid #d0d0d0;
+}

@@ -1,0 +1,61 @@
+<?php
+  
+  // DOCTYPE
+  $this->doctype('XHTML1_STRICT');
+  
+  // Title
+  $this->headTitle('Locamore');
+  
+  // CSS
+  $this->headLink()
+    ->prependStylesheet('static/css/main.css')
+    ->prependStylesheet('http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css');
+  
+  $jquery_ver = isset($this->layout()->jquery_ver) ? $this->layout()->jquery_ver : '1';
+  
+  // JavaScript
+  $this->headScript()
+    ->prependFile('static/js/main.js')
+    ->prependScript('google.load("jquery","'.$jquery_ver.'");')
+    ->prependFile('http://www.google.com/jsapi');
+
+?>
+<?= $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<?= $this->headTitle() ?>
+
+<?= $this->headLink() ?>
+
+</head>
+<body>
+  <div id="wrap">
+    <div id="head">
+      <h1>Locamore</h1>
+      <p>
+        <input type="text" id="location" title="Loca" />
+        <input type="button" id="submit" value="More" />
+      </p>
+    </div>
+    <div id="main">
+    <?= $this->layout()->content ?>
+    </div>
+    <div id="push"></div>
+  </div>
+  <div id="foot">
+    <p>
+      <span>(</span><a href="http://jakemcgraw.com/resume/" target="_blank">jakemcgraw</a>
+      <span>+</span>
+      <a href="http://developer.etsy.com" target="_blank">etsy</a>
+      <span>+</span>
+      <a href="http://code.google.com/apis/maps/" target="_blank">maps</a><span>)</span>
+      <span>x</span>
+      <a href="http://jquery.com" class="jquery" target="_blank">jquery</a>
+      <span>=</span>
+      <a href="http://jakemcgraw.com/locamore" class="locamore">locamore</a>
+    </p>
+  </div>
+  
+  <?= $this->headScript() ?>
+</body>
+</html>

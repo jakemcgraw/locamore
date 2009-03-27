@@ -1,0 +1,43 @@
+<?php
+
+$this->headLink()
+  ->appendStylesheet('static/css/update.css');
+
+?>
+<form method="get" action="update">
+  <input type="text" name="q" value="<?= $this->q ?>" />
+  <input type="submit" />
+</form>
+<h2>Config</h2>
+<dl>
+  <dt>Base URL</dt>
+  <dd><?= $this->config->baseurl ?></dd>
+<? foreach($this->config->params as $param => $value) : ?>
+  <dt><?= $param ?></dt>
+  <dd><?= $value ?></dd>
+<? endforeach ?>
+</dl>
+<h2>Request</h2>
+<p>
+  GET <?= $this->uri ?>
+</p>
+<h2>Response</h2>
+<dl>
+  <dt>Code</dt>
+  <dd><?= $this->code ?></dd>
+  <dt>Message</dt>
+  <dd><?= $this->message ?></dd>
+  <dt>Content-type</dt>
+  <dd><?= $this->contentType ?></dd>
+  <dt>Response<dt>
+  <dd>
+<? if (is_string($this->response)) : ?>
+    <?= $this->response ?>
+<? else: ?>
+    <pre>
+<? var_dump($this->response) ?>
+    </pre>
+<? endif ?>
+  </dd>
+</dl>
+    

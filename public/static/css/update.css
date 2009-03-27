@@ -1,0 +1,23 @@
+#main {
+  text-align:left;
+}
+#main dl {
+  width:100%;
+  overflow:hidden;
+}
+#main dl dt,
+#main dl dd {
+  float:left;
+  margin-bottom:8px;
+  width:486px;
+}
+#main dl dt {
+  text-align:right;
+  font-weight:bold;
+  margin-right:10px;
+  width:200px;
+}
+h2 {
+  font:bold 2em sans-serif;
+  margin:20px 0 8px;
+}
