@@ -129,25 +129,40 @@ class Locamore_Http_Client
   public function request() 
   {
     if ($this->_client !== null) {
+      
       $response = $this->_client->request();
-      if ($response->isSuccessful()) {
-        $contentType = $response->getHeader('Content-type');
-        switch($contentType) {
+      
+      $this->_lastResponse = array(
+        'status'    => $response->getStatus()
+        , 'message' => $response->getMessage()
+        , 'body'    => $response->getBody()
+      );
+      
+      $contentType = $response->getHeaders('Content-type');
+      switch($contentType) {
+        case 'text/xml':
+        case 'text/xml; charset=UTF-8':
+          $result = @simplexml_load_string($this->_lastResponse['body']);
+          break;
           
-          // This is how you should deliver JSON
-          case 'application/json':
-            // ... continue down ...
-            
-          // This is how Google Maps delivers JSON
-          case 'text/javascript; charset=UTF-8':
+        case 'application/json':
+        case 'text/javascript; charset=UTF-8':
+          $result = Zend_Json::decode($this->_lastResponse['body'], Zend_Json::TYPE_OBJECT);
+          break;
           
-            return Zend_Json::decode($response->getBody(), Zend_Json::TYPE_OBJECT);
-            
-          default:
-            return $response->getBody();
-        }
+        default:
+          $result = $this->_lastResponse['body'];
+          break;
       }
+      
+      if ($this->_isError($result)) {
+        return null;
+      }
+      
+      return $this->_processResult($response);
     }
+    
+    $this->_lastResponse = null;
     return null;
   }
   
@@ -165,6 +180,69 @@ class Locamore_Http_Client
     }
   }
   
+  protected function _isError($result) 
+  {
+    if ($result === null || $result === false) {
+      return true;
+    }
+    
+    if (in_array($this->_lastResponse['status'], $this->_errorStatus)) {
+      return true;
+    }
+    
+    return false;
+  }
+  
+  protected function _processResult($result) 
+  {
+    return $result;
+  }
+  
+  protected function _processBatch(array $batch, $key, $param, $ttl = 4, $callback = null) 
+  {
+    if ($ttl > 1) {
+      set_time_limit(self::BATCH_TIME_LIMIT);
+    } else {
+      return null;
+    }
+    if (null === $callback) {
+      $callback = array($this, '_processBatchResult');
+    }
+    $retry = array();
+    foreach($batch as $idx => $data) {
+      $delay = 0;
+      if (!isset($data[$key])) {
+        continue 1;
+      }
+      $this->setParam($param, $data[$key]);
+      $result = $this->request();
+      if (null === $result) {
+        // Retry on too many queries
+        if ($this->_lastResponse 
+          && $this->_lastResponse['status'] === self::STATUS_TOO_MANY_QUERIES
+        ) {
+          $retry[$idx] = $data;
+          sleep(self::BATCH_DELAY_INTERVAL);
+          continue 1;
+        }
+      }
+      $batch[$idx] = call_user_func($callback, $data, $result);
+    }
+    if (!empty($retry)) {
+      $result = $this->_processBatch($retry, $key, $param, --$ttl, $callback);
+      if (null !== $result) {
+        foreach($result as $idx => $entry) {
+          $batch[$idx] = $entry;
+        }
+      }
+    }
+    return $batch;
+  }
+  
+  protected function _processBatchResult($data, $result) 
+  {
+    return $data;
+  }
 }
 
 class Locamore_Http_Client_Exception extends Zend_Exception {}

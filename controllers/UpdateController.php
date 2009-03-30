@@ -7,6 +7,10 @@ class UpdateController extends Zend_Controller_Action
    */
   protected $_reg;
   
+  protected $_services = array(
+    'google' => array('limit' => 11), 'yahoo' => array('limit' => 4)
+  );
+  
   public function init() 
   {
     $this->_reg = Zend_Registry::getInstance();
@@ -51,24 +55,44 @@ class UpdateController extends Zend_Controller_Action
     exit;
   }
   
-  public function geoAction() 
+  public function geoCodeAction() 
   {
-    $user = $this->_helper->getModel('user');
-    $users = $user->getGoogleMapsGeoBatch(50);
+    // Get service name
+    $service = $this->_request->getParam('service', 'google');
+    if (!in_array($service, array_keys($this->_services))) {
+      $service = 'google';
+    }
+    $limit = $this->_services[$service]['limit'];
     
-    $maps = $this->_helper->getModel('google_maps');
-    $maps->setResource('geo');
-    $users = $maps->processBatch($users);
+    // Get user batch to process
+    $users  = $this->_helper->getModel('user');
+    $batch  = $users->getGeoBatch($limit);
     
-    $log = array();
-    foreach($users as $idx => $data) {
+    // Process user batch (GeoCode)
+    $geo    = $this->_helper->getModel($service.'_maps');
+    $batch  = $geo->processUserBatch($batch);
+    
+    var_dump($batch);
+    exit;
+    
+    // Save result
+    foreach($batch as $idx => $data) {
       try {
-        $user->save($data);
+        $users->save($data);
       } catch (Exception $e) {
-        $log[] = implode(',', $data);
+        $log[] = '\''.implode('\',\'', $data).'\'';
       }
     }
-    $this->_logErrors('Geo', $log);
+    
+    // Log any errors
+    $this->_logErrors('Geo Code '.strtoupper($service), $log);
+    
+    if (null === $this->_request->getParam('halt')) {
+      $service = ($service == 'google') ? 'yahoo' : 'google';
+      return $this->_forward('geo-code', null, null, array(
+        'service' => $service, 'halt' => true
+      ));
+    }
     exit;
   }
   
