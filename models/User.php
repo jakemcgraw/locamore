@@ -9,11 +9,21 @@ class Model_User extends Model_AModel
   public function save(array $data, $table = null)
   {
     if (null === $table || $table == $this->_primaryTable) {
-      // Set total_left
+      // Set updated
       if (!isset($data['updated'])){
         $data['updated'] = date('Y-m-d H:i:s');
       }
+      // Modify g_region, g_country_code
+      if (isset($data['g_country_code'])) {
+        $data['g_country_code'] = strtolower($data['g_country_code']);
+        if ($data['g_country_code'] == 'us') {
+          if (isset($data['g_region'])) {
+            $data['g_region'] = strtolower($data['g_region']);
+          }
+        }
+      }
     }
+    
     return parent::save($data, $table);
   }
   
@@ -55,7 +65,7 @@ class Model_User extends Model_AModel
     );
   }
   
-  public function getGoogleMapsGeoBatch($limit = 50) 
+  public function getGeoBatch($limit = 10) 
   {
     $table = $this->getTable('user');
     return $table->fetchAll($table->select()

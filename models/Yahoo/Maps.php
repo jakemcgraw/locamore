@@ -8,8 +8,7 @@ class Model_Yahoo_Maps extends Locamore_Http_Client {
   const Y_GEO_STATUS_SERVICE_UNAVAILABLE  = 503;
   
   // Standard codes
-  const STATUS_SUCCESS                    = 200;
-  const STATUS_TOO_MANY_QUERIES           = 403;
+  protected $_statusTooManyQueries        = self::Y_GEO_STATUS_FORBIDDEN;
   
   // Error codes
   protected $_errorStatus = array(
@@ -75,20 +74,44 @@ class Model_Yahoo_Maps extends Locamore_Http_Client {
         $user['geo'] = null;
       }
     } else {
-      $user['geo'] = 1;
-      $data = $result->ResultSet->Result;
-      $user['lon'] = $data->Longitude;
-      $user['lat'] = $data->Latitude;
-      if (!empty($data->City)) {
-        $user['g_city'] = $data->City;
-      }
-      if (!empty($data->Country) && $data->Country == 'US') {
-        if (!empty($data->State)) {
-          $user['g_us_state'] = $data->State;          
+      $user['geo'] = 0;
+      try {
+        if (isset($result->ResultSet['Result'][0])) {
+          $data = (object) $result->ResultSet['Result'][0];
+        } else {
+          $data = (object) $result->ResultSet['Result'];
         }
-        if (!empty($data->Zip)) {
-          $user['g_us_zipcode'] = $data->Zip;
+        $user['lon'] = $data->Longitude;
+        $user['lat'] = $data->Latitude;
+        $user['geo'] = 1;
+        switch($data->precision) {
+          case 'address':
+          case 'street':
+          case 'zip+4':
+          case 'zip+2':
+
+          // Postal code available (maybe?)
+          case 'zip':
+            if (!empty($data->Zip)) {
+              $user['g_postal_code'] = $data->Zip;
+            }
+            // ... continue down ...
+
+          // Locality available
+          case 'city':
+            $user['g_city'] = $data->City;
+            // ... continue down ...
+
+          case 'state':
+            $user['g_region'] = $data->State;
+            // ... continue down ...
+
+          case 'country':
+            $user['g_country_code'] = $data->Country;
+            break;
         }
+      } catch (Exception $e) {
+        // Do nothing
       }
     }
     

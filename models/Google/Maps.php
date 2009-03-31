@@ -12,8 +12,7 @@ class Model_Google_Maps extends Locamore_Http_Client {
   const STATUS_G_GEO_TOO_MANY_QUERIES     = 620;
   
   // Standard codes
-  const STATUS_SUCCESS                    = 200;
-  const STATUS_TOO_MANY_QUERIES           = 620;
+  protected $_statusTooManyQueries        = self::STATUS_G_GEO_TOO_MANY_QUERIES;
   
   // Error codes
   protected $_errorStatus = array(
@@ -28,7 +27,7 @@ class Model_Google_Maps extends Locamore_Http_Client {
   
   // Status messages
   protected $_statusMessages = array(
-    self::Y_GEO_STATUS_SUCCESS =>
+    self::STATUS_G_GEO_SUCCESS =>
       'Success'
     , self::STATUS_G_GEO_INVALID_REQUEST =>
       'Invalid client request'
@@ -72,7 +71,7 @@ class Model_Google_Maps extends Locamore_Http_Client {
     }
     
     // Google sends code with in message body
-    if ($result->Status->code != self::STATUS_SUCCESS) {
+    if ($result->Status->code != self::STATUS_G_GEO_SUCCESS) {
       $this->_lastResponse['status'] = $result->Status->code;
       return true;
     }
@@ -93,6 +92,19 @@ class Model_Google_Maps extends Locamore_Http_Client {
       , self::STATUS_G_GEO_UNAVAILABLE_ADDRESS
     );
     
+    static $accuracyMessage = array(
+       'Unknown'
+       , 'Country level accuracy'
+       , 'Region (state, province, prefecture, etc.) level accuracy'
+       , 'Sub-region (county, municipality, etc.) level accuracy'
+       , 'Town (city, village) level accuracy'
+       , 'Post code (zip code) level accuracy'
+       , 'Street level accuracy'
+       , 'Intersection level accuracy'
+       , 'Address level accuracy'
+       , 'Premise (building name, property name, shopping center, etc.) level accuracy'
+    );
+    
     // Error processing result
     if (null === $result) {
       
@@ -107,14 +119,57 @@ class Model_Google_Maps extends Locamore_Http_Client {
         $user['geo'] = null;
       }
     } else {
-      $user['geo'] = 1;
-      $data = $result->Placemark[0];
-      $user['lon'] = $data->Point->coordinates[0];
-      $user['lat'] = $data->Point->coordinates[1];
-      $user['g_city'] = $data->AddressDetails->Country->AdministrativeArea->Locality->LocalityName;
-      if ($data->AddressDetails->Country->CountryNameCode == 'US') {
-        $user['g_us_state'] = $data->AddressDetails->Country->AdministrativeArea->AdministrativeAreaName;
-        $user['g_us_zipcode'] = $data->AddressDetails->Country->AdministrativeArea->Locality->PostalCode->PostalCodeNumber;
+      // Default to invalid address
+      $user['geo'] = 0;
+      
+      try {
+        $data = $result->Placemark[0];
+        $user['lon'] = $data->Point->coordinates[0];
+        $user['lat'] = $data->Point->coordinates[1];
+
+        // Usable lat and lon, everything else is gravy
+        $user['geo'] = 1;
+        
+        $sub = false;
+        if (isset($data->AddressDetails->Country->AdministrativeArea->SubAdministrativeArea)) {
+          $sub = true;
+        }
+        
+        switch($data->AddressDetails->Accuracy) {
+          case 9:
+          case 8:
+          case 7:
+          case 6:
+
+          // Postal Code Available
+          case 5:
+            $user['g_postal_code'] = $sub 
+              ? $data->AddressDetails->Country->AdministrativeArea->SubAdministrativeArea->Locality->PostalCode->PostalCodeNumber
+              : $data->AddressDetails->Country->AdministrativeArea->Locality->PostalCode->PostalCodeNumber;
+              
+            // ... continue down ...
+
+          // Locality available
+          case 4:
+            
+            $user['g_city'] = $sub 
+              ? $data->AddressDetails->Country->AdministrativeArea->SubAdministrativeArea->Locality->LocalityName
+              : $data->AddressDetails->Country->AdministrativeArea->Locality->LocalityName;
+              
+            // ... continue down ...
+
+          // Region available
+          case 3:
+          case 2:
+            $user['g_region'] = $data->AddressDetails->Country->AdministrativeArea->AdministrativeAreaName;
+            // ... continue down ...
+            
+          case 1:
+            $user['g_country_code'] = $data->AddressDetails->Country->CountryNameCode;
+            break;
+        }
+      } catch (Exception $e) {
+        // Do nothing
       }
     }
     

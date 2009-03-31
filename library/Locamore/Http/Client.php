@@ -3,6 +3,10 @@ class Locamore_Http_Client
 {
   
   const BLANK_RESOURCE_TYPE = 'blank';
+  const BATCH_TIME_LIMIT = 20;
+  const BATCH_DELAY_INTERVAL = 2;
+  protected $_statusSuccess = 200;
+  protected $_statusTooManyQueries = 400;
   
   /**
    * @var string
@@ -138,18 +142,26 @@ class Locamore_Http_Client
         , 'body'    => $response->getBody()
       );
       
-      $contentType = $response->getHeaders('Content-type');
+      $contentType = $response->getHeader('Content-type');
+      $contentType = preg_replace('/; charset.*$/', '', $contentType);
       switch($contentType) {
+        // XML
         case 'text/xml':
-        case 'text/xml; charset=UTF-8':
           $result = @simplexml_load_string($this->_lastResponse['body']);
           break;
-          
+        
+        // JSON
         case 'application/json':
-        case 'text/javascript; charset=UTF-8':
+        case 'text/javascript':
           $result = Zend_Json::decode($this->_lastResponse['body'], Zend_Json::TYPE_OBJECT);
           break;
-          
+        
+        // PHP 
+        case 'text/php':
+          $result = (object) unserialize($this->_lastResponse['body']);
+          break;
+        
+        // TEXT
         default:
           $result = $this->_lastResponse['body'];
           break;
@@ -159,7 +171,7 @@ class Locamore_Http_Client
         return null;
       }
       
-      return $this->_processResult($response);
+      return $this->_processResult($result);
     }
     
     $this->_lastResponse = null;
@@ -214,12 +226,12 @@ class Locamore_Http_Client
       if (!isset($data[$key])) {
         continue 1;
       }
-      $this->setParam($param, $data[$key]);
+      $this->setParams($param, $data[$key]);
       $result = $this->request();
       if (null === $result) {
         // Retry on too many queries
         if ($this->_lastResponse 
-          && $this->_lastResponse['status'] === self::STATUS_TOO_MANY_QUERIES
+          && $this->_lastResponse['status'] === $this->_statusTooManyQueries
         ) {
           $retry[$idx] = $data;
           sleep(self::BATCH_DELAY_INTERVAL);

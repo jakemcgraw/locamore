@@ -72,10 +72,8 @@ class UpdateController extends Zend_Controller_Action
     $geo    = $this->_helper->getModel($service.'_maps');
     $batch  = $geo->processUserBatch($batch);
     
-    var_dump($batch);
-    exit;
-    
     // Save result
+    $log = array();
     foreach($batch as $idx => $data) {
       try {
         $users->save($data);
@@ -85,14 +83,16 @@ class UpdateController extends Zend_Controller_Action
     }
     
     // Log any errors
-    $this->_logErrors('Geo Code '.strtoupper($service), $log);
+    $this->_logErrors('Geo Code '.ucwords($service), $log);
     
+    // Run next service
     if (null === $this->_request->getParam('halt')) {
       $service = ($service == 'google') ? 'yahoo' : 'google';
       return $this->_forward('geo-code', null, null, array(
         'service' => $service, 'halt' => true
       ));
     }
+    
     exit;
   }
   
